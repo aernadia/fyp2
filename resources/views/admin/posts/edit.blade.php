@@ -11,11 +11,31 @@
 </div>
 @endcanany --}}
 @canany(['isSupervisor'])
-<div class="publish-checkbox" style="float:right">
+{{-- <div class="publish-checkbox" style="float:right">
     <label for="publish-post">Approve ?</label>
-    <input type="checkbox" id="publish-post" {{$post->published ? 'checked=checked' : '' }}>
+    <input type="checkbox" id="publish-approve" {{$post->published ? 'checked=checked' : '' }}>
 </div>
+<div class="publish-checkbox" style="float:right">
+    <label for="publish-post">Rejected ?</label>
+    <input type="checkbox" id="publish-rejected" {{$post->published ? 'checked=checked' : '' }}>
+</div>
+<div class="publish-checkbox" style="float:right">
+    <label for="publish-post">Pending ?</label>
+    <input type="checkbox" id="publish-pending" {{$post->published ? 'checked=checked' : '' }}>
+</div> --}}
+<form method="POST" action="/posts/{{ $post->id }}" enctype="multipart/form-data">
+    @method('PATCH')
+    @csrf()
+    <label for="published">Choose:</label>
+            <select name="published" class="form-control" style="width:250px">
+                 {{-- <option value="0" selected>--- Select Number ---</option> --}}
+                <option value="1" {{$post->published==1 ? 'selected' : ''}}>Approved</option>
+                <option value="2" {{$post->published==2 ? 'selected' : ''}}>Rejected</option>
+                <option value="0" {{$post->published==0 ? 'selected' : ''}}>Pending</option>
+     
+            </select>
 @endcanany
+
 @if ($errors->any())
     <div class="alert alert-danger" role="alert">
         <ul>
@@ -26,9 +46,7 @@
     </div>
 @endif
 
-<form method="POST" action="/posts/{{ $post->id }}" enctype="multipart/form-data">
-    @method('PATCH')
-    @csrf()
+
     
     {{-- <div class="form-group">
         <label for="title">Title</label>
@@ -56,12 +74,50 @@
         
 
         $(document).ready(function(){    
-            $('#publish-post').on('click', function(event) {
+            $('#publish-approve').on('click', function(event) {
                 // event.preventDefault();
 
-                if ($("#publish-post").is(":checked")){
+                if ($("#publish-approve").is(":checked")){
                     var checked = 1;
-                }else{
+                }
+                $.ajax({
+                    url: "/posts/{{$post->id}}",
+                    method: 'get',
+                    dataType: 'json',
+                    data: {
+                        task: {
+                            id: "{{$post->id}}",
+                            checked: checked
+                        }
+                    }
+                }).done(function(data) {
+                    console.log(data);
+                });
+            });
+            $('#publish-rejected').on('click', function(event) {
+                // event.preventDefault();
+
+                if ($("#publish-rejected").is(":checked")){
+                    var checked = 0;
+                }
+                $.ajax({
+                    url: "/posts/{{$post->id}}",
+                    method: 'get',
+                    dataType: 'json',
+                    data: {
+                        task: {
+                            id: "{{$post->id}}",
+                            checked: checked
+                        }
+                    }
+                }).done(function(data) {
+                    console.log(data);
+                });
+            });
+            $('#publish-pending').on('click', function(event) {
+                // event.preventDefault();
+
+                if ($("#publish-pending").is(":checked")){
                     var checked = 0;
                 }
                 $.ajax({

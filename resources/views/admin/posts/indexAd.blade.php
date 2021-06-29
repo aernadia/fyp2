@@ -5,9 +5,7 @@
     <div class="row py-lg-2">
         <div class="col-md-6">
             <h2>APPLICATION LIST</h2>
-            {{-- @foreach ($stu1 as $post)
-            <h4>CURRENT SV : {{ $post['quota']}}</h4>
-            @endforeach --}}
+            {{-- <h2>Current Supervisee : {{ $quota}} </h2> --}}
         </div>
         {{-- @cannot('isLecturer')
             @can('create', App\Post::class)
@@ -30,36 +28,40 @@
                 <thead>
                 <tr>
                     <th>Id</th>
-                    <th>Apply Date</th>
                     <th>Student ID</th>
-                    <th>Student Name</th>
-                    {{-- <th>Quota</th> --}}
-                    <th>Supervisor Name</th>
+                    <th>Applicant Name</th>
                     <th>Title</th>
-                    <th>Content</th>
-                    <th>Proposal</th>
+                    {{-- <th>Content</th> --}}
+                    {{-- <th>PDF File</th> --}}
+                    {{-- <th>View</th> --}}
                     <th>Status</th>
                 </tr>
                 </thead>
-
+            
                 <tbody>
-                    @foreach ($posts as $post)
+                    @foreach ($adlists as $post)
                         <tr>
                             <td>{{ $post['id'] }}</td>
-                            <td>{{ $post['date'] }}</td>
                             <td>{{ $post['studId'] }}</td>
                             <td>{{ $post->user['name'] }}</td>
-                            {{-- <td>{{ $stu1->where('id', $post['userId'])->pluck('quota')[0]}}</td>  --}}
-                            <td>{{ $svu->where('id', $post['svId'])->pluck('name')[0]}}</td> 
                             <td>{{ $post['title'] }}</td>
-                            <td>{!! getShorterString($post['content'], 50) !!}</td>
-                            <td>{{ $post->document['file'] }}</td>
-                            
+                            {{-- <td>{!! getShorterString($post['content'], 50) !!}</td> --}}
+                            {{-- <td>{{ $post->document['file'] }}</td> --}}
+                            {{-- <td> <a href="/file/download/{{$post->document['file']}}">Download</a></td> --}}
+                          
                             {{-- <td>
                                 <a href="/posts/{{ $post['id'] }}"><i class="fa fa-eye"></i></a>
-                                <a href="/posts/{{ $post['id'] }}/edit"><i class="fa fa-edit"></i></a>
-                                <a href="#"  data-toggle="modal" data-target="#deleteModal" data-postid="{{$post['id']}}"><i class="fas fa-trash-alt"></i></a>
-                            
+                                
+
+                                @cannot('isLecturer','isSupervisor')
+                                    @can('edit', $post)
+                                        <a href="/posts/{{ $post['id'] }}/edit"><i class="fa fa-edit"></i></a>
+                                    @endcan
+                                    @can('delete', $post)
+                                        <a href="#"  data-toggle="modal" data-target="#deleteModal" data-postid="{{$post['id']}}"><i class="fas fa-trash-alt"></i></a>
+                                    @endcan
+                                @endcannot
+                                                     
                             </td> --}}
                             <td>
                                 @if ($post->published == 1) 
@@ -68,7 +70,7 @@
                                     <span>Rejected <i class="fa fa-check-square" style="color:rgb(201, 28, 12)"></i></span>
                                 @else
                                     <span>Pending </span>
-                                @endif                                     
+                                @endif                                    
                                     {{-- <span>
                                         <i class="fa fa-check-square" style="color:green"></i>                                                                                      
                                     </span>
@@ -80,20 +82,9 @@
             </table>
             </div>
         </div>
+        {{-- <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div> --}}
     </div>
-</div>
-        <div class="container">
-            <!-- Sticky Footer -->
-            <footer class="sticky-footer">
-              <div class="container my-auto">
-                <div class="copyright text-center my-auto">
-                  <span>Copyright © SFAS Website 2021</span>
-                </div>
-              </div>
-            </footer>
-        
-        </div>
-    </div>
+    
 
     <!-- delete Modal-->
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -118,6 +109,19 @@
         </div>
         </div>
     </div>
+</div>
+</div>
+<div class="container">
+    <!-- Sticky Footer -->
+    <footer class="sticky-footer">
+      <div class="container my-auto">
+        <div class="copyright text-center my-auto">
+          <span>Copyright © SFAS Website 2021</span>
+        </div>
+      </div>
+    </footer>
+
+</div>
 
 @endsection
 

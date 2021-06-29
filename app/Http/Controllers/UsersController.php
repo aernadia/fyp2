@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Role;
+use App\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
+
 
 class UsersController extends Controller
 {
@@ -16,9 +19,106 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = User::orderBy('id', 'desc')->get();
+        $users = User::orderBy('id', 'desc')
+            ->when(auth()->user()->hasRole('user'), function($query, $role) {
+                $query->whereHas('roles', function($query) {
+                    // $query->where('slug', 'supervisor');
+                });
+            })
+            ->get();
 
         return view('admin.users.index', ['users' => $users]);
+
+        // $data = DB ::table('users')
+        // ->join('users_roles','users.id','users_roles.user_id')
+        // ->get();
+        // echo "<pre>";
+        // print_r($data);
+        
+    }
+    public function indexStud()
+    {
+        $sv = User::orderBy('id', 'desc')
+            ->when(auth()->user()->hasRole('user'), function($query, $role) {
+                $query->whereHas('roles', function($query) {
+                    $query->where('slug', 'supervisor');
+                });
+            })
+            ->get();
+            // dd($sv);
+        return view('admin.users.indexStud', ['svs' => $sv]);
+
+        
+        
+    }
+    public function dashboardS()
+    {
+        $quota = \Auth::user()->quota;
+        $maxquota = \Auth::user()->maxquota;
+
+        $svS = User::orderBy('id', 'desc')
+            ->when(auth()->user()->hasRole('user'), function($query, $role) {
+                $query->whereHas('roles', function($query) {
+                    $query->where(['slug' => 'supervisor']);
+                });
+            })
+            ->count();
+        $svF = User::orderBy('id', 'desc')
+            ->when(auth()->user()->hasRole('user'), function($query, $role) {
+                $query->whereHas('roles', function($query) {
+                    $query->where('slug', 'supervisor');
+                });
+            })
+            ->whereColumn('quota', 'maxquota')
+            ->count();
+        $totalA = $svS - $svF;
+        $ps = Post::where('userId', \Auth::user()->id)->orderBy('id', 'desc')
+        ->count();
+        $acc = Post::where('userId', \Auth::user()->id)->orderBy('id', 'desc')->where('published', '1')
+        ->count();
+        // $svF = $svF->quota;
+        // dd($svF);
+        return view('admin.users.dashboardS', ['svS' => $svS, 'svF' => $svF, 'ps' => $ps, 'acc' => $acc, 'totalA' => $totalA]);
+
+        
+        
+    }
+    public function indexLect()
+    {
+        $lc = User::orderBy('id', 'desc')
+            ->when(auth()->user()->hasRole('lecturer'), function($query, $role) 
+                {
+                    $query->whereHas('roles', function($query) 
+                        {
+                            $query->where('slug', 'supervisor');
+                        }
+                    );
+                }
+            )
+            ->get();
+            // dd($lc);
+        return view('admin.users.indexLect', ['lcl' => $lc]);   
+    }
+    public function indexLectStud()
+    {
+        $st = User::orderBy('id', 'desc')
+            ->when(auth()->user()->hasRole('lecturer'), function($query, $role) 
+                {
+                    $query->whereHas('roles', function($query) 
+                        {
+                            $query->where('slug', 'user');
+                        }
+                    );
+                }
+            )
+            ->get();
+        
+        $stuID = Post::all();
+        
+        // dd($stuID->where('id', 3)->pluck('studId')[0]);
+        // $stuID = \Auth::post()->studId;
+      
+        return view('admin.users.indexLectStud', ['stl' => $st], compact('stuID') );   
     }
 
     /**
@@ -55,6 +155,8 @@ class UsersController extends Controller
             'password' => 'required|between:8,255|confirmed',
             'password_confirmation' => 'required'
         ]);
+        
+        
 
         $user = new User;
         $user->name = $request->name;
@@ -172,5 +274,38 @@ class UsersController extends Controller
         $user->delete();
 
         return redirect('/users');
+    }
+    public function dropdown(Request $request, User $user)
+    {
+        // $quotas = $user->maxquota;
+        // dd($user);
+        // return view('admin.users.dropdown', compact('user'));
+        // $maxquota= $_GET['maxquota'];
+        // dd($maxquota);
+        // $maxquota = User::find($user->id);
+
+        //call the view admin.posts.create 
+        return view('admin/users/dropdown', compact('user') );
+    }
+
+    public function updatedropdown(Request $request, User $user)
+    {
+    
+        // $request->validate([
+        //     'maxquota' => 'confirmed',
+        // ]);
+
+        // $quotas = User::where('id', $request->id)->get();
+        $user->maxquota = $request->maxquota;
+        $user->save();
+        // dd($user);
+
+        // $user->maxquota = $request->maxquota;
+        // if($request->maxquota != null){
+        //     $user->maxquota= Hash::make($request->maxquota);
+        // }
+        // $user->save();
+    
+       return redirect('/users/indexLect');
     }
 }

@@ -3,8 +3,8 @@
 @section('content')
 
     <div class="row py-lg-2">
-        <div class="col-md-6">
-            <h2>APPLICATION LIST</h2>
+        <div class="col-md-6" >
+            <h2>Welcome to SFAS</h2>
         </div>
         {{-- @cannot('isManager')
             @can('create', App\Post::class)
@@ -16,77 +16,7 @@
         @endcannot --}}
     </div>
 
-    <!-- DataTables Example -->
-    <div class="card mb-3">
-        <div class="card-header">
-            {{-- <i class="fas fa-table"></i>
-            Data Table Example</div> --}}
-        <div class="card-body">
-            <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Title</th>
-                    <th>Content</th>
-                    {{-- <th>PDF File</th> --}}
-                    <th>Applicant Name</th>
-                    <th>View</th>
-                    <th>Status</th>
-                </tr>
-                </thead>
-                {{-- <tfoot>
-                <tr>
-                    <th>Id</th>
-                    <th>Title</th>
-                    <th>Content</th>
-                    <th>Image</th>
-                    <th>User</th>
-                    <th>Tools</th>
-                </tr>
-                </tfoot> --}}
-                <tbody>
-                    @foreach ($posts as $post)
-                        <tr>
-                            <td>{{ $post['id'] }}</td>
-                            <td>{{ $post['title'] }}</td>
-                            <td>{!! getShorterString($post['content'], 50) !!}</td>
-                            {{-- <td><img src="{{ asset('/storage/images/posts_images/'.$post['image_url']) }}" alt="{{ $post['image_url'] }}" width="100"></td> --}}
-                           {{-- <td></td> --}}
-                            <td>{{ $post->user['name'] }}</td>
-                            <td>
-                                <a href="/posts/{{ $post['id'] }}"><i class="fa fa-eye"></i></a>
-
-                                @cannot('isManager')
-                                    {{-- @can('edit', $post)
-                                        <a href="/posts/{{ $post['id'] }}/edit"><i class="fa fa-edit"></i></a>
-                                    @endcan --}}
-                                    @can('delete', $post)
-                                        <a href="#"  data-toggle="modal" data-target="#deleteModal" data-postid="{{$post['id']}}"><i class="fas fa-trash-alt"></i></a>
-                                    @endcan
-                                @endcannot
-                                                     
-                            </td>
-                            <td>
-                                @if ($post->published == true) 
-                                    <span>Approved <i class="fa fa-check-square" style="color:green"></i></span>
-                                @else
-                                    <span>Pending </span>
-                                @endif                                    
-                                    {{-- <span>
-                                        <i class="fa fa-check-square" style="color:green"></i>                                                                                      
-                                    </span>
-                                @endif   --}}
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-            </div>
-        </div>
-        {{-- <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div> --}}
-    </div>
-
+    
     <!-- delete Modal-->
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -110,6 +40,18 @@
         </div>
         </div>
     </div>
+</div>
+<div class="container">
+    <!-- Sticky Footer -->
+    <footer class="sticky-footer">
+      <div class="container my-auto">
+        <div class="copyright text-center my-auto">
+          <span>Copyright © SFAS Website 2021</span>
+        </div>
+      </div>
+    </footer>
+
+</div>
 
 @endsection
 

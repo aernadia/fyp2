@@ -17,9 +17,12 @@ class CreatePostsTable extends Migration
             $table->increments('id');
             $table->timestamps();
             $table->string('title', 255);
+            $table->integer('studId');
+            $table->date('date');
+            $table->string('file')->nullable();
             $table->text('content');
-            // $table->string('image_url');
             $table->integer('userId');
+            $table->integer('svId');
         });
     }
 

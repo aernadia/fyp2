@@ -5,8 +5,8 @@
 	<title>SFAS</title>
   
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" type="text/css" href="{{ url('/css/w3.css') }}" />
-	<link rel="stylesheet" type="text/css" href="{{ url('/css/homecss.css') }}" />
+	{{-- <link rel="stylesheet" type="text/css" href="{{ url('/css/w3.css') }}" /> --}}
+	{{-- <link rel="stylesheet" type="text/css" href="{{ url('/css/homecss.css') }}" /> --}}
 
 </head>	
 <body>
@@ -15,54 +15,29 @@
 		
 
 		<img class="mySlides w3-animate-fading" src="https://i.ytimg.com/vi/kvmIhf7PCHs/maxresdefault.jpg" style="width:100%">
-        <img class="mySlides w3-animate-fading" src="https://i.ytimg.com/vi/kvmIhf7PCHs/maxresdefault.jpg" style="width:100%">
-		{{-- <img class="mySlides w3-animate-fading" src="2image.jpg" style="width:100%"> --}}
-		{{-- <img class="mySlides w3-animate-fading" src="3image.jpg" style="width:100%"> --}}
 		
- 
+{{--  
 	</div>		
-		{{-- <table border="0" width="100%" align="center">
+		<table border="0" width="100%" align="center">
 		<tr>
-		
+	
 			<td>
 				<div class="container">
-				<a href="{{ url('/admin')}}">
-				<button class="button button1">ADMIN</button>
-				<img src="blockA.jpg" alt="Avatar" class="image" width="50" height="50"  style="border-radius:15%">
-				<div class="overlay">Admin</div>
-				</div>
-			</td>
-			
-			<td>
-				<div class="container">
-				<a href="{{ url('/stud') }}">
-				<button class="button button2">STUDENT</button>
-				<img src="blockB.png" alt="Avatar" class="image" width="50" height="50"  style="border-radius:15%">
-				<div class="overlay">Student</div>
-				</div>
-			</td>
-			
-			
-			<td>
-				<div class="container">
-				<a href="supervisor">
+				<a href="/about">
 				<button class="button button3">SUPERVISOR</button>
-				<img src="audiA.jpg" alt="Avatar" class="image" width="50" height="50"  style="border-radius:15%">
-				<div class="overlay">Supervisor</div>
 				</div>
 			</td>
 			
 			<td>
 				<div class="container">
-				<a href="lecturer">
+				<a href="/contact">
 				<button class="button button4">LECTURER</button>
-				<img src="bsu.jpg" alt="Avatar" class="image" width="50" height="50"  style="border-radius:15%">
-				<div class="overlay">Lecturer</div>
 				</div>
 			</td>
 			
 		</tr>
-		</table> --}}
+		</table>
+	</div> --}}
 		
 
 	<script>

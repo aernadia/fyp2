@@ -18,8 +18,8 @@
 
   <!-- Bootstrap core CSS -->
   <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-	<link href="{{ asset('css/w3.css') }}" rel="stylesheet">
+  {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
+	{{-- <link href="{{ asset('css/w3.css') }}" rel="stylesheet"> --}}
 	<style>
 		body {
 		  margin: 0;
@@ -84,9 +84,9 @@
         {{ config('app.name', 'Laravel') }}
     </a> --}}
     {{-- go to home --}}
-<a href="{{ url('/')}}"><i class="fa fa-male">&nbsp; SFAS</i></a>	
 
-<a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+	<a href="{{ url('/')}}"><i class="fa ">&nbsp; SFAS </i></a>
+	{{-- <a href="{{ route('login') }}"><i class="fa ">&nbsp; LOG-IN </i></a>	 --}}
 
     {{-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
         <span class="navbar-toggler-icon"></span>

@@ -2,7 +2,8 @@
 
 @section('content')
 
-<h1>Apply Form</h1>
+<h1><center>APPLY FORM<center></h1>
+<br>
 
 @if ($errors->any())
     <div class="alert alert-danger" role="alert">
@@ -18,16 +19,25 @@
     {{ csrf_field() }}
     
     <div class="form-group">
-        <label for="title">Title</label>
+        <label for="title">Title of Proposed Project</label>
         <input type="text" name="title" class="form-control" id="title" placeholder="Title..." value="{{ old('title') }}">
+        <input type="hidden" name="svId" class="form-control" id="svId" value="{{ $svId }}">
+
     </div>
-    {{-- <div class="form-group">
-        <label for="image">Select Image</label>
-        <input type="file" name="image" class="form-control-file" id="image">
-    </div> --}}
     <div class="form-group">
-        <label for="content">Insert Content</label>
+        <label for="studId">Student ID</label>
+        <input type="text" name="studId" class="form-control" id="studId" placeholder="Student ID.." value="{{ old('studId') }}">
+    </div>
+    <div class="form-group">
+        <input type="file" name="file">
+    </div>
+    <div class="form-group">
+        <label for="content">Insert Description</label>
         <textarea name="post_content" id="content">{{ old('post_content') }}</textarea>
+    </div>
+    <div class="form-group">
+        <label for="date">Date</label>
+        <input type="date" name="date" class="form-control" >
     </div>
 
     <div class="form-group pt-2">

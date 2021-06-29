@@ -17,7 +17,10 @@
 <form method="POST" action="/users/{{ $user->id }}" enctype="multipart/form-data">
     @method('PATCH')
     @csrf()
-    
+    {{-- <div class="form-group">
+        <label for="studId">Student ID</label>
+        <input type="text" name="studId" class="form-control" id="studId"  value="{{ $user->studId }}" required>
+    </div> --}}
     <div class="form-group">
         <label for="name">User name</label>
         <input type="text" name="name" class="form-control" id="name" placeholder="Name..." value="{{ $user->name }}" required>

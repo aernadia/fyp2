@@ -10,16 +10,15 @@
 
     {{-- <title>{{ config('app.name', 'Laravel') }}</title> --}}
 
-    <!-- Scripts -->
-    {{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-	<link href="{{ asset('css/w3.css') }}" rel="stylesheet">
+	{{-- <link href="{{ asset('css/w3.css') }}" rel="stylesheet"> --}}
 	<style>
 		body {
 		  margin: 0;
@@ -63,9 +62,21 @@
 			float : right;
 			color : white;
 			text-align:center;
-			padding:14px 16px;
+			padding:10px 16px;
 			text-decoration:none;
-			font-size:17px;
+			font-size:15px;
+		}
+		.nav {
+			float : right;
+			display: flex;
+			height: 4em;
+			line-height: 4em;
+			flex-grow: 1;
+		}	
+		
+		.right {
+  			display: flex;
+  			flex-direction: column;
 		}
 		</style>
 </head>
@@ -100,9 +111,12 @@
                     {{ config('app.name', 'Laravel') }}
                 </a> --}}
                 {{-- go to home --}}
-				<a href="{{ url('/')}}"><i class="fa fa-male">&nbsp; SFAS </i></a>	
-			
-					<a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+					<a href="{{ url('/')}}"><i class="fa ">&nbsp; SFAS </i></a>
+					<a href="{{ route('login') }}"><i class="fa ">&nbsp; LOG-IN </i></a>
+					{{-- <a href="/about"><i class="fa ">&nbsp; About Us</i></a>	 --}}
+					<div class="nav right">
+						<a href="/about" ><i class="fa ">About Us</i></a>
+					</div>
 				
                 {{-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>

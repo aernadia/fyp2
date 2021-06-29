@@ -4,13 +4,13 @@
 
 <div class="row py-lg-2">
     <div class="col-md-6">
-        <h2>USERS LISTS</h2>
+        <h2>AVAILABLE SUPERVISORS</h2>
     </div>
-    @cannot('isSupervisor')
+    {{-- @cannot('isSupervisor')
     <div class="col-md-6">
         <a href="/users/create" class="btn btn-primary btn-lg float-md-right" role="button" aria-pressed="true">Create New User</a>
     </div>
-    @endcannot
+    @endcannot --}}
 </div>
 
 
@@ -18,24 +18,7 @@
 {{-- DASHBOARD USERS IN ADMIN WHERE ADMIN CAN ADD USER AND SHOW THEIR DETAIL --}}
 <div class="card mb-3">
     <div class="card-header">
-        {{-- <i class="fas fa-table"></i>
-        Data Table Example</div> --}}
-        @canany(['isUser'])
-      <li class="nav-item">
-        <a class="nav-link" href="/posts">
-          <i class="fas fa-fw fa-chart-area"></i>
-          <span>Status</span>
-        </a>
-        <a class="nav-link" href="/posts/create">
-          <i class="fas fa-fw fa-table"></i>
-          <span>Apply</span>
-        </a>
-        <a class="nav-link" href="/users">
-          <i class="fas fa-fw fa-table"></i>
-          <span>SV</span>
-        </a>
-      </li>
-      @endcanany
+        
     <div class="card-body">
         <div class="table-responsive">
         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -44,52 +27,32 @@
                 <th>Id</th>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Role</th>
-                {{-- <th>Permissions</th> --}}
-                <th>Action</th>
+                <th>Current Quota SV</th>
+                <th>Apply</th>
                 
             </tr>
             </thead>
            
             <tbody>
 
-                    @foreach ($users as $user)  
+                    @foreach ($svs as $user)  
 
                 {{-- @if(!\Auth::user()->hasRole('admin') && $user->hasRole('admin')) @continue; @endif                           --}}
                 <tr {{ Auth::user()->id == $user->id ? 'bgcolor=#ddd' : '' }}>
                     <td>{{$user['id']}}</td>
                     <td>{{$user['name']}}</td>
                     <td>{{$user['email']}}</td>
-                    <td>
-                        @if ($user->roles->isNotEmpty())
-                            @foreach ($user->roles as $role)
-                                <span class="badge badge-secondary">
-                                    {{ $role->name }}
-                                </span>
-                            @endforeach
-                        @endif
-
-                    </td>
-                    {{-- <td>
-                        @if ($user->permissions->isNotEmpty())
-                                        
-                            @foreach ($user->permissions as $permission)
-                                <span class="badge badge-secondary">
-                                    {{ $permission->name }}                                    
-                                </span>
-                            @endforeach
+                    <td>{{$user['quota']}}/{{$user['maxquota']}}</td>
+                    @if($user['quota'] == $user['maxquota'])
+                        <td>
+                            <p>Quota is full</p>
                         
-                        @endif
-                    </td> --}}
-                    <td>
-                        <a href="/users/{{ $user['id'] }}"><i class="fa fa-eye"></i></a>
-                        <a href="/users/{{ $user['id'] }}/edit"><i class="fa fa-edit"></i></a>
-                        {{-- @cannot('isLecturer')
-                            @can('delete-user', $user) --}}
-                                <a href="#" data-toggle="modal" data-target="#deleteModal" data-userid="{{$user['id']}}"><i class="fas fa-trash-alt"></i></a>
-                            {{-- @endcan
-                        @endcannot --}}
-                    </td>
+                        </td>
+                    @else
+                        <td>
+                            <a href="/posts/create?svId={{ $user['id'] }}"><i class="fa fa-edit"></i></a>
+                        </td>
+                    @endif
                 </tr>
                 @endforeach
             </tbody>
@@ -110,9 +73,7 @@
                 <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                 <form method="POST" action="">
-                    @method('DELETE')
-                    @csrf
-                    {{-- <input type="hidden" id="user_id" name="user_id" value=""> --}}
+                    
                     <a class="btn btn-primary" onclick="$(this).closest('form').submit();">Delete</a>
                 </form>
                 </div>
@@ -121,8 +82,7 @@
         </div>
     </div>
 </div>
-</div>
-<div class="container">
+</div><div class="container">
     <!-- Sticky Footer -->
     <footer class="sticky-footer">
       <div class="container my-auto">
@@ -133,7 +93,10 @@
     </footer>
 
 </div>
+   
+    {{-- <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div> --}}
 </div>
+
 
 @section('js_user_page')
 

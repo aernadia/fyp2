@@ -586,7 +586,7 @@ pre code {
   margin-right: auto;
   margin-left: auto;
 }
-
+/* 
 @media (min-width: 576px) {
   .container {
     max-width: 540px;
@@ -609,7 +609,7 @@ pre code {
   .container {
     max-width: 1140px;
   }
-}
+} */
 
 .container-fluid {
   width: 100%;
@@ -11078,13 +11078,14 @@ footer .copyright {
 
 .login,
 .image {
-  min-height: 100vh;
+  min-height: 92.5vh;
 }
 
 .bg-image {
   background-image: url("https://i.ytimg.com/vi/kvmIhf7PCHs/maxresdefault.jpg");
   background-size: cover;
   background-position: center;
+  
 }
 
 .login-heading {

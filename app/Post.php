@@ -13,4 +13,14 @@ class Post extends Model
     {
         return $this->belongsTo('App\User', 'userId');
     }
+
+    public function post()
+    {
+        return $this->belongsTo('App\Post', 'published');
+    }
+
+    public function document()
+    {
+        return $this->belongsTo('App\Documents', 'file');
+    }
 }

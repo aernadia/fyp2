@@ -1,3 +1,4 @@
+
 @extends('admin.layouts.dashboard')
 
 @section('content')
@@ -5,9 +6,7 @@
     <div class="row py-lg-2">
         <div class="col-md-6">
             <h2>APPLICATION LIST</h2>
-            {{-- @foreach ($stu1 as $post)
-            <h4>CURRENT SV : {{ $post['quota']}}</h4>
-            @endforeach --}}
+            <h2>Current Supervisee : {{$quota}}/{{$maxquota}}</h2>
         </div>
         {{-- @cannot('isLecturer')
             @can('create', App\Post::class)
@@ -30,37 +29,62 @@
                 <thead>
                 <tr>
                     <th>Id</th>
-                    <th>Apply Date</th>
                     <th>Student ID</th>
                     <th>Student Name</th>
-                    {{-- <th>Quota</th> --}}
-                    <th>Supervisor Name</th>
                     <th>Title</th>
                     <th>Content</th>
                     <th>Proposal</th>
+                    <th>Action</th>
                     <th>Status</th>
                 </tr>
                 </thead>
-
+            
                 <tbody>
-                    @foreach ($posts as $post)
+                    @foreach ($svPosts as $post)
                         <tr>
                             <td>{{ $post['id'] }}</td>
-                            <td>{{ $post['date'] }}</td>
                             <td>{{ $post['studId'] }}</td>
                             <td>{{ $post->user['name'] }}</td>
-                            {{-- <td>{{ $stu1->where('id', $post['userId'])->pluck('quota')[0]}}</td>  --}}
-                            <td>{{ $svu->where('id', $post['svId'])->pluck('name')[0]}}</td> 
                             <td>{{ $post['title'] }}</td>
                             <td>{!! getShorterString($post['content'], 50) !!}</td>
-                            <td>{{ $post->document['file'] }}</td>
+                            {{-- <td>{{ $post->document['file'] }}</td> --}}
+                            <td> <a href="/file/download/{{$post->document['file']}}">Download</a></td>
+                          
+                            <td> 
+                                <a href="/posts/{{ $post['id'] }}"><i class="fa fa-eye"></i></a>     
+                           
+                            @if($post->user['quota'] == 1)
+                                
+                                <?php 
+                                    $publishedPost = $postpublished->where('userId', $post->user['id'])->first();
+                                    $ispublished = $publishedPost->published;
+                                    $svId = $publishedPost->svId;
+                                
+                                ?>
+                                {{-- {{dd($publishedPost->published)}} --}}
+                                
+
+                                @if($svId == auth()->user()->id )
+                                    @if($ispublished == 1)
+                
+                                    @cannot('isLecturer','isSupervisor')
+                                        @can('edit', $post)
+                                            <a href="/posts/{{ $post['id'] }}/edit"><i class="fa fa-edit"></i></a>
+                                        @endcan
+                                    @endcannot
+                                    @endif
+                                @endif
+                            @else
+                                @cannot('isLecturer','isSupervisor')
+                                    @can('edit', $post)
+                                        <a href="/posts/{{ $post['id'] }}/edit"><i class="fa fa-edit"></i></a>
+                                    @endcan
+                                @endcannot 
+                            @endif     
                             
-                            {{-- <td>
-                                <a href="/posts/{{ $post['id'] }}"><i class="fa fa-eye"></i></a>
-                                <a href="/posts/{{ $post['id'] }}/edit"><i class="fa fa-edit"></i></a>
-                                <a href="#"  data-toggle="modal" data-target="#deleteModal" data-postid="{{$post['id']}}"><i class="fas fa-trash-alt"></i></a>
-                            
-                            </td> --}}
+                            <a href="#"  data-toggle="modal" data-target="#deleteModal" data-postid="{{$post['id']}}"><i class="fas fa-trash-alt"></i></a>
+
+                            </td>
                             <td>
                                 @if ($post->published == 1) 
                                     <span>Approved <i class="fa fa-check-square" style="color:green"></i></span>
@@ -68,7 +92,7 @@
                                     <span>Rejected <i class="fa fa-check-square" style="color:rgb(201, 28, 12)"></i></span>
                                 @else
                                     <span>Pending </span>
-                                @endif                                     
+                                @endif                                    
                                     {{-- <span>
                                         <i class="fa fa-check-square" style="color:green"></i>                                                                                      
                                     </span>
@@ -82,17 +106,17 @@
         </div>
     </div>
 </div>
-        <div class="container">
-            <!-- Sticky Footer -->
-            <footer class="sticky-footer">
-              <div class="container my-auto">
-                <div class="copyright text-center my-auto">
-                  <span>Copyright © SFAS Website 2021</span>
-                </div>
-              </div>
-            </footer>
-        
+<div class="container">
+    <!-- Sticky Footer -->
+    <footer class="sticky-footer">
+      <div class="container my-auto">
+        <div class="copyright text-center my-auto">
+          <span>Copyright © SFAS Website 2021</span>
         </div>
+      </div>
+    </footer>
+
+</div>
     </div>
 
     <!-- delete Modal-->

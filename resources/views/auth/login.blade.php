@@ -9,7 +9,9 @@
         <div class="container">
           <div class="row">
             <div class="col-md-9 col-lg-8 mx-auto">
-              <h3 class="login-heading mb-4">Welcome back!</h3>
+              <h3><center>SUPERVISOR FINDER APPLICATION SYSTEM<center></h3>
+              {{-- <h3 class="login-heading mb-4">Welcome !</h3> --}}
+              <br>
               <form method="POST"  {{ route('login') }}>
               @csrf
                 <div class="form-label-group">
